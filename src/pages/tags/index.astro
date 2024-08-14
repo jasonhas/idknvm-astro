@@ -1,0 +1,36 @@
+---
+import { getCollection } from "astro:content"
+import BaseLayout from "../../layouts/BaseLayout.astro"
+import BreadCrumb from "../../components/BreadCrumb.astro"
+
+const pageTitle = "Tag List"
+const allPosts = await getCollection('posts')
+
+const uniqueTags = [...new Set(allPosts.map((post) => post.data.tags).flat())]
+---
+<BaseLayout pageTitle={pageTitle}>
+        <BreadCrumb name1="Tags" url1="/tags"/>
+        <h1 transition:animate="slide" class="text-3xl font-bold text-center font-anton pt-4">{pageTitle}</h1>
+        <div class="tags py-4 justify-evenly">{uniqueTags.map((tag) => <div class="tag"><a href={`/tags/${tag}`}>{tag}</a></div>)}</div>
+
+
+</BaseLayout>
+<style>
+    a { 
+        color: #00539F;
+    }
+
+    .tags {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .tag {
+        margin: 0.25em;
+        border: dotted 1px #a1a1a1;
+        border-radius: .5em;
+        padding: .5em 1em;
+        font-size: 1.15em;
+        background-color: #F8FCFD;
+    }
+</style>

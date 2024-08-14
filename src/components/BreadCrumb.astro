@@ -1,0 +1,11 @@
+---
+const { name1, url1, name2} = Astro.props;
+---
+
+<div class="breadcrumbs text-sm">
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href={url1}>{name1}</a></li>
+      {name2 && <li>{name2}</li>}
+    </ul>
+  </div>

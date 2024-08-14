@@ -1,0 +1,45 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import BreadCrumb from "../components/BreadCrumb.astro";
+import { fade } from "astro:transitions"
+const { frontmatter } = Astro.props;
+---
+<BaseLayout pageTitle={frontmatter.title}>
+    <BreadCrumb name1="Blog" url1="/blog/" name2={frontmatter.title}/>
+    <h1 transition:animate="slide" class="text-3xl font-bold text-center font-anton pt-4">{frontmatter.title}</h1>
+    <p class="text-center font-semibold py-4">Written by: {frontmatter.author} &middot; On: {frontmatter.pubDate.toString().slice(0,10)}</p>
+    <p class="text-center" transition:animate={fade({ duration: '2s'})}><em>{frontmatter.description}</em></p>
+
+    <img src={frontmatter.image.url} alt={frontmatter.image.alt} class="h-auto max-w-full rounded-lg py-4"/>
+
+    <article class="prose lg:prose-xl">
+     <slot/> 
+    </article>
+    
+    <div class="gap-2">
+      <span>Tags: </span>
+      {frontmatter.tags.map((tag) => (
+          <button class="btn btn-link"><a href={`/tags/${tag}`}>{tag}</a></button>
+      ))}
+  </div>
+
+</BaseLayout>
+<style>
+    a {
+      color: #00539F;
+    }
+  s
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  
+    .tag {
+      margin: 0.25em;
+      border: dotted 1px #a1a1a1;
+      border-radius: .5em;
+      padding: .5em 1em;
+      font-size: 1.15em;
+      background-color: #F8FCFD;
+    }
+  </style>

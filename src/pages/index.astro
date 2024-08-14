@@ -1,0 +1,55 @@
+---
+import { getCollection } from "astro:content"
+import HomePage from "../layouts/HomePage.astro"
+import Hero from "../components/Hero.astro"
+
+const allPosts = await getCollection("posts")
+
+/* sort the posts by newest to oldest */
+allPosts.sort(
+  (a, b) =>
+    Date.parse(b.data.pubDate.toString()) - Date.parse(a.data.pubDate.toString())
+);
+const pageTitle = "The Home Page"
+---
+<HomePage pageTitle={pageTitle}>
+	<div class="mx-auto max-w-4xl mb-4 px-4 md:px-2">
+		{allPosts.map((post, index) => {
+		if (index === 0) {
+			return (
+			<div class="py-8">
+
+				<img
+				class="shadow-xl"
+				src={post.data.image.url}
+				alt={post.data.image.alt} />
+			<h1 class="text-3xl font-bold font-anton py-4 text-center"><a class="hover:text-blue-700" href={`/posts/${post.slug}`}>{post.data.title}</a></h1>
+			<p class="text-center">{post.data.description}</p>
+			</div>
+			)
+		} 
+
+	})}	
+	  <div class="container mx-auto lg:flex lg:flex-wrap">
+		{allPosts.map((p,i) => {
+			if(i > 0 && i < 3) {
+				return (
+					<div class="md:w-full lg:w-1/2 px-4 md:px-2 mb-8">
+						<div class="rounded overflow-hidden">
+						<img
+						    class="hover:shadow-lg w-full"
+							src={p.data.image.url}
+							alt={p.data.image.alt} />
+					<h3 class="font-anton text-center pt-4"><a class="hover:text-blue-700 text-2xl" href={`/posts/${p.slug}`}>{p.data.title}</a></h3>
+					</div>
+					</div>
+				)
+			}
+		})}
+	  </div>
+
+	</div>
+
+
+	<!-- <Hero/> -->
+</HomePage>

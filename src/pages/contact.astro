@@ -1,0 +1,68 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import BreadCrumb from "../components/BreadCrumb.astro";
+import '../scripts/script.js'
+
+const pageTitle = "Contact Me"
+
+---
+<BaseLayout pageTitle={pageTitle}>
+    <BreadCrumb name1="Contact Me" url1="/contact/"/>
+    <h2 transition:animate="slide" class="text-3xl font-anton text-center p-6">Get a hold of me</h2>
+    <div class="flex max-w-3xl mx-auto gap-4 justify-evenly">
+      <form class="space-y-4" method="POST">
+        <label class="input input-bordered flex items-center gap-2">
+            Name
+            <input type="text" id="fullName" class="grow" placeholder="Daisy" />
+          </label>
+          <label class="input input-bordered flex items-center gap-2">
+            Email
+            <input type="text" id="email_id" class="grow" placeholder="daisy@site.com" />
+          </label>
+          <textarea id="message"
+            placeholder="message"
+            class="textarea textarea-bordered textarea-lg w-full max-w-xs gap-2"></textarea>
+          <button type="submit" class="btn email">Send</button>
+      </form>
+    </div>
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+    </script>
+    <script type="text/javascript">
+      (function(){
+         emailjs.init({
+           publicKey: "KzvDI9N5uvt2Nnhac",
+         });
+      })();
+
+      function SendMail() {
+        var params = {
+        from_name : document.getElementById("fullName").value,
+        email_id : document.getElementById("email_id").value,
+        message : document.getElementById("message").value
+      }
+      emailjs.send("service_xgjujpm", "template_qumoz97", params).then(
+            (res) => {
+              console.log('SUCCESS', res.status, res.text)
+            },
+            (error) => {
+              console.log('FAILED', error )
+            }
+          )
+      }
+    </script>
+    <script>
+      const buttons = document.querySelectorAll('button.email');
+
+      buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+          alert('Email Sent!')
+          SendMail();
+        })
+      });
+
+
+
+    </script>
+
+</BaseLayout>
